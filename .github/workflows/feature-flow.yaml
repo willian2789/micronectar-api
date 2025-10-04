@@ -1,3 +1,9 @@
+name: Feature FLow
+
+on:
+  push:
+    branches:
+      - feature/**
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
@@ -35,3 +41,6 @@ jobs:
             qa-team
           milestone: 1
           draft: false
+ 
+            
+            
