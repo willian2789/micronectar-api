@@ -1,26 +1,53 @@
-name: Feature FLow
+name: Feature Flow - Propose Integration
 
 on:
   push:
     branches:
-      - feature/**
+      - 'feature/**'
+
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
+
     steps:
+      # 1. Checkout do código da sua branch.
+      # É fundamental para ter o código disponível no runner.
       - name: Git checkout
         uses: actions/checkout@v4
 
+      # 2. Criar o Pull Request usando a action de Peter Evans.
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v6
         with:
+          # Token de autenticação fornecido pelo GitHub. Essencial.
           token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Título do Pull Request.
           title: 'Feature: ${{ github.ref_name }}'
+
+          # Corpo (descrição) do Pull Request.
           body: |
             Pull Request automático da branch `${{ github.ref_name }}`.
-            Por favor, revise as alterações e faça o merge para developppppp.
+            
+            **Autor:** @${{ github.actor }}
+            
+            Por favor, revise as alterações e faça o merge para `develop`.
+
+          # --- CONFIGURAÇÃO CRÍTICA PARA CORRIGIR O COMPORTAMENTO ---
+
+          # 1. Define a branch ALVO.
+          base: develop
+
+          # 2. Define um nome para a branch do Pull Request.
+          #    Usar o próprio nome da feature branch (`github.ref_name`) aqui
+          #    instrui a action a criar/atualizar uma branch com este nome
+          #    contendo os commits da sua feature. Isso força a detecção de mudanças.
           branch: ${{ github.ref_name }}
- 
-            
-            
+          
+          # 3. Impede que a action adicione commits indesejados.
+          #    Isso garante que o PR contenha apenas os seus commits.
+          commit-message: "chore: update pull request branch"
+
+          # (Opcional, mas recomendado) Adiciona labels para organização.
+          labels: automação, para-revisão
