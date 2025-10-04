@@ -21,6 +21,6 @@ jobs:
             Pull Request automático da branch `${{ github.ref_name }}`.
             Por favor, revise as alterações e faça o merge para developppppp.
           branch: ${{ github.ref_name }}
-          base: develop
+ 
             
             
