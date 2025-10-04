@@ -10,6 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+     # - name: Make changes to pull request
+      #  run: date +%s > report.txt
+
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v7
@@ -21,6 +24,7 @@ jobs:
           signoff: false
           branch: example-patches
           delete-branch: true
+          base: develop
           title: '[Example] Update report'
           body: |
             Update report
